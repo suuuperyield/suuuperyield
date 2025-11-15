@@ -15,7 +15,6 @@ import {BoringVault} from "boring-vault/base/BoringVault.sol";
  * - Role-based access control
  */
 contract SuperYieldVault is BoringVault {
-
     /// @notice GlueX vault addresses (from hackathon requirements)
     address[5] public glueXVaults = [
         0xE25514992597786E07872e6C5517FE1906C0CAdD,
@@ -41,12 +40,9 @@ contract SuperYieldVault is BoringVault {
      * @param _symbol Symbol of the share token (e.g., "syETH")
      * @param _decimals Decimals for the share token (typically 18)
      */
-    constructor(
-        address _owner,
-        string memory _name,
-        string memory _symbol,
-        uint8 _decimals
-    ) BoringVault(_owner, _name, _symbol, _decimals) {
+    constructor(address _owner, string memory _name, string memory _symbol, uint8 _decimals)
+        BoringVault(_owner, _name, _symbol, _decimals)
+    {
         // Whitelist all GlueX vaults
         for (uint256 i = 0; i < glueXVaults.length; i++) {
             isWhitelistedVault[glueXVaults[i]] = true;

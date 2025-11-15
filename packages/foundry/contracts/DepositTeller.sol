@@ -6,21 +6,9 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 interface ISuperYieldVault {
-    function enter(
-        address from,
-        address asset,
-        uint256 assetAmount,
-        address to,
-        uint256 shareAmount
-    ) external;
+    function enter(address from, address asset, uint256 assetAmount, address to, uint256 shareAmount) external;
 
-    function exit(
-        address to,
-        address asset,
-        uint256 assetAmount,
-        address from,
-        uint256 shareAmount
-    ) external;
+    function exit(address to, address asset, uint256 assetAmount, address from, uint256 shareAmount) external;
 }
 
 /**
@@ -69,12 +57,7 @@ contract DepositTeller is Auth {
      * @param _vault Address of the SuperYieldVault
      * @param _accountant Address of the YieldAccountant
      */
-    constructor(
-        address _owner,
-        Authority _authority,
-        address _vault,
-        address _accountant
-    ) Auth(_owner, _authority) {
+    constructor(address _owner, Authority _authority, address _vault, address _accountant) Auth(_owner, _authority) {
         VAULT = _vault;
         accountant = _accountant;
     }
@@ -101,13 +84,7 @@ contract DepositTeller is Auth {
         shares = amount;
 
         // Mint shares to user via vault's enter function
-        ISuperYieldVault(VAULT).enter(
-            msg.sender,
-            asset,
-            amount,
-            msg.sender,
-            shares
-        );
+        ISuperYieldVault(VAULT).enter(msg.sender, asset, amount, msg.sender, shares);
 
         emit Deposit(msg.sender, asset, amount, shares);
     }
@@ -127,13 +104,7 @@ contract DepositTeller is Auth {
         assetAmount = shareAmount;
 
         // Burn shares and withdraw assets via vault's exit function
-        ISuperYieldVault(VAULT).exit(
-            msg.sender,
-            asset,
-            assetAmount,
-            msg.sender,
-            shareAmount
-        );
+        ISuperYieldVault(VAULT).exit(msg.sender, asset, assetAmount, msg.sender, shareAmount);
 
         emit Withdrawal(msg.sender, asset, assetAmount, shareAmount);
     }

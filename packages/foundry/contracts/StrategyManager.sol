@@ -57,11 +57,7 @@ contract StrategyManager is Auth {
      * @param _authority Authority contract for role-based access control
      * @param _vault Address of the SuperYieldVault
      */
-    constructor(
-        address _owner,
-        Authority _authority,
-        address _vault
-    ) Auth(_owner, _authority) {
+    constructor(address _owner, Authority _authority, address _vault) Auth(_owner, _authority) {
         VAULT = _vault;
 
         // Whitelist all GlueX vaults
@@ -78,11 +74,7 @@ contract StrategyManager is Auth {
      * @param amount The amount to allocate
      * @dev Only callable by authorized addresses (AI agent)
      */
-    function allocate(
-        address targetVault,
-        address asset,
-        uint256 amount
-    ) external requiresAuth {
+    function allocate(address targetVault, address asset, uint256 amount) external requiresAuth {
         if (!isWhitelistedVault[targetVault]) {
             revert VaultNotWhitelisted(targetVault);
         }
@@ -95,9 +87,13 @@ contract StrategyManager is Auth {
 
         // Deposit into GlueX vault
         // Note: GlueX vaults use standard ERC4626 deposit interface
+<<<<<<< HEAD
         (bool success, ) = targetVault.call(
             abi.encodeWithSignature("deposit(uint256,address)", amount, VAULT)
         );
+=======
+        (bool success,) = targetVault.call(abi.encodeWithSignature("deposit(uint256,address)", amount, vault));
+>>>>>>> 4dd450c (djfksjdf)
 
         if (!success) {
             revert AllocationFailed(targetVault, "Deposit failed");
@@ -117,11 +113,7 @@ contract StrategyManager is Auth {
      * @param amount The amount to withdraw
      * @dev Only callable by authorized addresses (AI agent)
      */
-    function withdraw(
-        address targetVault,
-        address asset,
-        uint256 amount
-    ) external requiresAuth {
+    function withdraw(address targetVault, address asset, uint256 amount) external requiresAuth {
         if (!isWhitelistedVault[targetVault]) {
             revert VaultNotWhitelisted(targetVault);
         }
@@ -132,9 +124,14 @@ contract StrategyManager is Auth {
 
         // Withdraw from GlueX vault
         // Note: GlueX vaults use standard ERC4626 withdraw interface
+<<<<<<< HEAD
         (bool success, ) = targetVault.call(
             abi.encodeWithSignature("withdraw(uint256,address,address)", amount, VAULT, VAULT)
         );
+=======
+        (bool success,) =
+            targetVault.call(abi.encodeWithSignature("withdraw(uint256,address,address)", amount, vault, vault));
+>>>>>>> 4dd450c (djfksjdf)
 
         if (!success) {
             revert AllocationFailed(targetVault, "Withdrawal failed");
