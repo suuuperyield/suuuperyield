@@ -49,12 +49,7 @@ contract YieldAccountant is Auth {
      * @param _vault Address of the SuperYieldVault
      * @param _decimals Decimals for the base asset
      */
-    constructor(
-        address _owner,
-        Authority _authority,
-        address _vault,
-        uint8 _decimals
-    ) Auth(_owner, _authority) {
+    constructor(address _owner, Authority _authority, address _vault, uint8 _decimals) Auth(_owner, _authority) {
         VAULT = _vault;
         DECIMALS = _decimals;
         exchangeRate = BASE; // Start at 1:1
@@ -67,10 +62,7 @@ contract YieldAccountant is Auth {
      * @param totalShares Total shares outstanding
      * @dev Only callable by authorized addresses (usually the vault or manager)
      */
-    function updateExchangeRate(
-        uint256 totalAssets,
-        uint256 totalShares
-    ) external requiresAuth {
+    function updateExchangeRate(uint256 totalAssets, uint256 totalShares) external requiresAuth {
         if (totalShares == 0) {
             // No shares exist, keep rate at BASE
             exchangeRate = BASE;
@@ -191,12 +183,7 @@ contract YieldAccountant is Auth {
      * @return lastUpdate Last update timestamp
      * @return apy Current APY estimate
      */
-    function getMetrics() external view returns (
-        uint256 rate,
-        uint256 totalYield,
-        uint256 lastUpdate,
-        uint256 apy
-    ) {
+    function getMetrics() external view returns (uint256 rate, uint256 totalYield, uint256 lastUpdate, uint256 apy) {
         rate = exchangeRate;
         totalYield = totalYieldGenerated;
         lastUpdate = lastUpdateTime;

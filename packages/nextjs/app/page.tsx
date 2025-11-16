@@ -50,7 +50,17 @@ const Home: NextPage = () => {
         </div>
 
         <div className="grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col md:flex-row">
+          <div className="flex justify-center items-center gap-8 flex-col md:flex-row">
+            <div className="flex flex-col bg-gradient-to-br from-primary to-secondary text-primary-content px-10 py-10 text-center items-center max-w-xs rounded-3xl shadow-xl">
+              <div className="text-4xl mb-4">🚀</div>
+              <h3 className="font-bold text-xl mb-2">SuperYield</h3>
+              <p className="mb-4">
+                AI-powered yield optimizer using GlueX APIs and BoringVault for secure asset custody.
+              </p>
+              <Link href="/superyield" className="btn btn-accent">
+                Launch SuperYield
+              </Link>
+            </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
               <BugAntIcon className="h-8 w-8 fill-secondary" />
               <p>
