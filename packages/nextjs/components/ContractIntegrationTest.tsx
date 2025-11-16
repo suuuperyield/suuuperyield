@@ -60,8 +60,8 @@ export const ContractIntegrationTest = () => {
         </div>
         <div className="alert alert-info mt-4">
           <span>
-            ✅ If you see data above (not &quot;Loading...&quot;), Scaffold-ETH hooks are working correctly with
-            mainnet contracts!
+            ✅ If you see data above (not &quot;Loading...&quot;), Scaffold-ETH hooks are working correctly with mainnet
+            contracts!
           </span>
         </div>
       </div>
