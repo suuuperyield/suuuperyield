@@ -123,7 +123,7 @@ const SuperYield: NextPage = () => {
 
       // HyperEVM USDC address and DepositTeller address
       const usdcAddress = "0xb88339cb7199b77e23db6e890353e22632ba630f" as `0x${string}`;
-      const depositTellerAddress = "0x2f245E60EE78Acb2847D8FE1336725307C7B38Df" as `0x${string}`;
+      const depositTellerAddress = "0xd5B1C83a67FddE10846920462a04F8f67552F8ad" as `0x${string}`;
 
       // Define ERC20 ABI for balance and allowance checks
       const erc20Abi = [

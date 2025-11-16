@@ -612,7 +612,7 @@ cast call 0x8851862f714f2984c3E3Bcfc9Fafb57D67dB6845 \
 | **SuperYieldVault** | `0x8851862f714f2984c3E3Bcfc9Fafb57D67dB6845` | [View](https://explorer.hyperliquid.xyz/address/0x8851862f714f2984c3E3Bcfc9Fafb57D67dB6845) |
 | **YieldAccountant** | `0xf4F3b37236Dd3e0bbcDe9EAA1C6553220A30B9aE` | [View](https://explorer.hyperliquid.xyz/address/0xf4F3b37236Dd3e0bbcDe9EAA1C6553220A30B9aE) |
 | **StrategyManager** | `0x4E46c6826166AAD7ed6Ca0cdFCcd46818ea602aa` | [View](https://explorer.hyperliquid.xyz/address/0x4E46c6826166AAD7ed6Ca0cdFCcd46818ea602aa) |
-| **DepositTeller** | `0x2f245E60EE78Acb2847D8FE1336725307C7B38Df` | [View](https://explorer.hyperliquid.xyz/address/0x2f245E60EE78Acb2847D8FE1336725307C7B38Df) |
+| **DepositTeller** | `0xd5B1C83a67FddE10846920462a04F8f67552F8ad` | [View](https://explorer.hyperliquid.xyz/address/0xd5B1C83a67FddE10846920462a04F8f67552F8ad) |
 
 **Deployment Details:**
 - ✅ Total Gas Used: 0.0009523529 HYPE

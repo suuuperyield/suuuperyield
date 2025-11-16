@@ -2231,7 +2231,7 @@ const deployedContracts = {
       deployedOnBlock: 37757865,
     },
     DepositTeller: {
-      address: "0x2f245E60EE78Acb2847D8FE1336725307C7B38Df",
+      address: "0xd5B1C83a67FddE10846920462a04F8f67552F8ad",
       abi: [
         {
           type: "constructor",

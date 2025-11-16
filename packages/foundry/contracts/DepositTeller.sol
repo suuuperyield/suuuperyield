@@ -84,7 +84,8 @@ contract DepositTeller is Auth {
         shares = amount;
 
         // Mint shares to user via vault's enter function
-        ISuperYieldVault(VAULT).enter(msg.sender, asset, amount, msg.sender, shares);
+        // Pass assetAmount=0 because we already transferred the assets above
+        ISuperYieldVault(VAULT).enter(msg.sender, asset, 0, msg.sender, shares);
 
         emit Deposit(msg.sender, asset, amount, shares);
     }
@@ -104,6 +105,7 @@ contract DepositTeller is Auth {
         assetAmount = shareAmount;
 
         // Burn shares and withdraw assets via vault's exit function
+        // Vault will transfer assets to user
         ISuperYieldVault(VAULT).exit(msg.sender, asset, assetAmount, msg.sender, shareAmount);
 
         emit Withdrawal(msg.sender, asset, assetAmount, shareAmount);
