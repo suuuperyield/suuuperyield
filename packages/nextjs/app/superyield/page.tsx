@@ -119,8 +119,8 @@ const SuperYield: NextPage = () => {
       // USDC has 6 decimals (not 18 like ETH)
       const amountInUSDC = BigInt(Math.floor(parseFloat(depositAmount) * 1_000_000));
 
-      // TODO: Get USDC address from env or config
-      const usdcAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" as `0x${string}`; // Mainnet USDC
+      // HyperEVM USDC address
+      const usdcAddress = "0xb88339cb7199b77e23db6e890353e22632ba630f" as `0x${string}`;
 
       await depositToVault({
         functionName: "deposit",
