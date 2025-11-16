@@ -3,8 +3,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
+import { writeContract } from "wagmi/actions";
 import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import type { AllocationDecision } from "~~/lib/ai/openai-agent";
+import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 
 // Yield opportunity interface
 interface YieldOpportunity {
@@ -119,9 +121,33 @@ const SuperYield: NextPage = () => {
       // USDC has 6 decimals (not 18 like ETH)
       const amountInUSDC = BigInt(Math.floor(parseFloat(depositAmount) * 1_000_000));
 
-      // HyperEVM USDC address
+      // HyperEVM USDC address and DepositTeller address
       const usdcAddress = "0xb88339cb7199b77e23db6e890353e22632ba630f" as `0x${string}`;
+      const depositTellerAddress = "0x2f245E60EE78Acb2847D8FE1336725307C7B38Df" as `0x${string}`;
 
+      // Step 1: Approve USDC spending by DepositTeller
+      console.log("Approving USDC spending...");
+      await writeContract(wagmiConfig, {
+        address: usdcAddress,
+        abi: [
+          {
+            name: "approve",
+            type: "function",
+            stateMutability: "nonpayable",
+            inputs: [
+              { name: "spender", type: "address" },
+              { name: "amount", type: "uint256" },
+            ],
+            outputs: [{ name: "", type: "bool" }],
+          },
+        ],
+        functionName: "approve",
+        args: [depositTellerAddress, amountInUSDC],
+      });
+
+      console.log("USDC approved, now depositing...");
+
+      // Step 2: Deposit to vault
       await depositToVault({
         functionName: "deposit",
         args: [usdcAddress, amountInUSDC],
