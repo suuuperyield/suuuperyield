@@ -382,16 +382,31 @@ const SuperYield: NextPage = () => {
       // USDC address on HyperEVM
       const usdcAddress = "0xb88339cb7199b77e23db6e890353e22632ba630f" as `0x${string}`;
 
+      // Debug logging for AI decision
+      console.log("AI Decision:", aiDecision);
+      console.log("AI Amount (raw):", aiDecision.amount, "Type:", typeof aiDecision.amount);
+      console.log("Vault Balance (raw):", vaultBalance, "Type:", typeof vaultBalance);
+
       // Convert amount to proper format (6 decimals for USDC)
       // If AI decision amount is 0 or invalid, use the user's vault balance
       let allocationAmount = parseFloat(aiDecision.amount);
-      if (allocationAmount <= 0 && vaultBalance) {
-        // Use the user's current vault balance (convert from 6 decimals)
-        allocationAmount = Number(vaultBalance) / 1_000_000;
-        console.log(`AI amount was ${aiDecision.amount}, using vault balance: ${allocationAmount} USDC`);
+      console.log("Parsed AI amount:", allocationAmount);
+
+      if (allocationAmount <= 0) {
+        if (vaultBalance && vaultBalance > 0n) {
+          // Use the user's current vault balance (convert from 6 decimals)
+          allocationAmount = Number(vaultBalance) / 1_000_000;
+          console.log(`AI amount was ${aiDecision.amount}, using vault balance: ${allocationAmount} USDC`);
+        } else {
+          console.log("Both AI amount and vault balance are 0 or invalid");
+          console.log("Vault balance:", vaultBalance);
+          throw new Error("No valid amount to allocate. Both AI decision and vault balance are zero.");
+        }
       }
 
+      console.log("Final allocation amount:", allocationAmount, "USDC");
       const amountInUSDC = BigInt(Math.floor(allocationAmount * 1_000_000));
+      console.log("Amount in USDC wei:", amountInUSDC.toString());
 
       // Validate and checksum the target vault address
       console.log("Validating address:", aiDecision.targetVault, "Type:", typeof aiDecision.targetVault);
@@ -424,6 +439,8 @@ const SuperYield: NextPage = () => {
         targetVault: checksummedVaultAddress,
         asset: usdcAddress,
         amount: amountInUSDC.toString(),
+        amountInUSDC: amountInUSDC,
+        allocationAmount: allocationAmount,
       });
 
       if (amountInUSDC <= 0) {
