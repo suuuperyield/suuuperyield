@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import type { NextPage } from "next";
+import { getAddress, isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { readContract, waitForTransactionReceipt, writeContract } from "wagmi/actions";
 import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
@@ -382,17 +383,36 @@ const SuperYield: NextPage = () => {
       const usdcAddress = "0xb88339cb7199b77e23db6e890353e22632ba630f" as `0x${string}`;
 
       // Convert amount to proper format (6 decimals for USDC)
-      const amountInUSDC = BigInt(Math.floor(parseFloat(aiDecision.amount) * 1_000_000));
+      // If AI decision amount is 0 or invalid, use the user's vault balance
+      let allocationAmount = parseFloat(aiDecision.amount);
+      if (allocationAmount <= 0 && vaultBalance) {
+        // Use the user's current vault balance (convert from 6 decimals)
+        allocationAmount = Number(vaultBalance) / 1_000_000;
+        console.log(`AI amount was ${aiDecision.amount}, using vault balance: ${allocationAmount} USDC`);
+      }
+
+      const amountInUSDC = BigInt(Math.floor(allocationAmount * 1_000_000));
+
+      // Validate and checksum the target vault address
+      if (!isAddress(aiDecision.targetVault)) {
+        throw new Error(`Invalid target vault address: ${aiDecision.targetVault}`);
+      }
+
+      const checksummedVaultAddress = getAddress(aiDecision.targetVault);
 
       console.log("Executing allocation strategy:", {
-        targetVault: aiDecision.targetVault,
+        targetVault: checksummedVaultAddress,
         asset: usdcAddress,
         amount: amountInUSDC.toString(),
       });
 
+      if (amountInUSDC <= 0) {
+        throw new Error(`Invalid allocation amount: ${amountInUSDC}. Amount must be greater than 0.`);
+      }
+
       await executeStrategy({
         functionName: "allocate",
-        args: [aiDecision.targetVault as `0x${string}`, usdcAddress, amountInUSDC],
+        args: [checksummedVaultAddress as `0x${string}`, usdcAddress, amountInUSDC],
       });
 
       alert(`Strategy executed successfully! Allocated ${aiDecision.amount} USDC to ${aiDecision.targetProtocol}`);
