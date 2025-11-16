@@ -1,3 +1,4 @@
+import { hyperEVM, hyperEVMTestnet } from "./utils/chains";
 import * as chains from "viem/chains";
 import { hyperEvmMainnet } from "./utils/chains";
 
